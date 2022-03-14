@@ -15,7 +15,9 @@ const decodeFileBase64 = (base64String) => {
 function App() {
   const [inputFileData, setInputFileData] = React.useState(''); // represented as bytes data (string)
   const [outputFileData, setOutputFileData] = React.useState(''); // represented as readable data (text string)
+  let [spectrogramData, setSpectrogramData] = React.useState('');
   const [buttonDisable, setButtonDisable] = React.useState(true);
+  const [audioPlayerDisable, setAudioPlayerDisable] = React.useState(true);
   const [buttonText, setButtonText] = React.useState('Submit');
 
   // convert file to bytes data
@@ -39,10 +41,18 @@ function App() {
   const handleChange = async (event) => {
     // Clear output text.
     setOutputFileData("");
+    setSpectrogramData("");
 
     console.log('newly uploaded file');
     const inputFile = event.target.files[0];
     console.log(inputFile);
+
+    //show audio player
+    var sound = document.getElementById('audio');
+    sound.src = URL.createObjectURL(inputFile);
+    sound.onend = function(e) {
+      URL.revokeObjectURL(this.src);
+    }
 
     // convert file to bytes data
     const base64Data = await convertFileToBytes(inputFile);
@@ -53,6 +63,7 @@ function App() {
 
     // enable submit button
     setButtonDisable(false);
+    setAudioPlayerDisable(false);
   }
 
   // handle file submission
@@ -61,7 +72,7 @@ function App() {
 
     // temporarily disable submit button
     setButtonDisable(true);
-    setButtonText('Loading Result');
+    setButtonText('Loading Results.. please wait !');
 
     // make POST request
     console.log('making POST request...');
@@ -84,6 +95,9 @@ function App() {
       else {
         const outputBytesData = JSON.parse(data.body)['outputResultsData'];
         setOutputFileData(decodeFileBase64(outputBytesData));
+        let spectrogramData = JSON.parse(data.body)['spectrogramData'];
+        spectrogramData = "data:image/png;base64,".concat(spectrogramData);
+        setSpectrogramData(spectrogramData);
       }
 
       // re-enable submit button
@@ -98,15 +112,25 @@ function App() {
   return (
     <div className="App">
       <div className="Input">
-        <h1>Input</h1>
+        <div class="back">
+        <h1>Welcome to the online Audio Classifier !</h1>
+        </div>
         <form onSubmit={handleSubmit}>
-          <input type="file" accept=".wav" onChange={handleChange} />
-          <button type="submit" disabled={buttonDisable}>{buttonText}</button>
+          <br/>
+          <input class="custom-file-input" type="file" accept=".wav" onChange={handleChange} />
+          <br/><br/>
+          <p disabled={audioPlayerDisable}>Here is your audio :</p>
+
+          <audio disabled={audioPlayerDisable} id="audio" controls>
+          </audio><br/><br/>
+          <button class="button" type="submit" disabled={buttonDisable}>{buttonText}</button>
         </form>
+        
       </div>
       <div className="Output">
         <h1>Results</h1>
         <p>{outputFileData}</p>
+        <img src={spectrogramData}></img>
       </div>
     </div>
   );
