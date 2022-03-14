@@ -3,7 +3,9 @@
   font-family: "Helvetica", "Arial", sans-serif;
   background: white;
 }
-
+.Output{
+  display: none;
+}
 .multiline
 {
    white-space: pre-wrap;

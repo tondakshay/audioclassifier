@@ -65,12 +65,20 @@ function App() {
 
     // enable submit button
     setButtonDisable(false);
-    setAudioPlayerDisable(false);
+    Show_Audio();
 
 
   }
 
+  function Show_Results() {
+    var x = document.getElementById("Results");
+    x.style.display = "block";
+  }
 
+  function Show_Audio() {
+    var x = document.getElementById("audioplayer");
+    x.style.display = "block";
+  }
 
   // handle file submission
   const handleSubmit = (event) => {
@@ -115,6 +123,7 @@ function App() {
     })
     .then(() => {
       console.log('POST request success');
+      Show_Results();
     })
   }
 
@@ -129,16 +138,17 @@ function App() {
           <br/>
           <input class="custom-file-input" type="file" accept=".wav" onChange={handleChange} />
           <br/><br/>
-          <p disabled={audioPlayerDisable}>Here is your audio :</p>
-
+          <div id="audioplayer" class="Output">
+            Here is your audio :<br/><br/>
           <audio disabled={audioPlayerDisable} id="audio" controls>
           </audio><br/><br/>
-          <div id="waveform"></div>
+          
           <button class="button" type="submit" disabled={buttonDisable}>{buttonText}</button>
+          </div>
         </form>
         
       </div>
-      <div className="Output">
+      <div id="Results" className="Output">
         <h1>Results</h1>
         <div class="multiline">
         <p>{outputFileData}</p> 
