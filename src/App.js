@@ -16,6 +16,7 @@ function App() {
   const [inputFileData, setInputFileData] = React.useState(''); // represented as bytes data (string)
   const [outputFileData, setOutputFileData] = React.useState(''); // represented as readable data (text string)
   let [spectrogramData, setSpectrogramData] = React.useState('');
+  let [barGraphData, setBarGraphData] = React.useState('');
   const [buttonDisable, setButtonDisable] = React.useState(true);
   const [audioPlayerDisable, setAudioPlayerDisable] = React.useState(true);
   const [buttonText, setButtonText] = React.useState('Submit');
@@ -42,6 +43,7 @@ function App() {
     // Clear output text.
     setOutputFileData("");
     setSpectrogramData("");
+    setBarGraphData("");
 
     console.log('newly uploaded file');
     const inputFile = event.target.files[0];
@@ -64,7 +66,11 @@ function App() {
     // enable submit button
     setButtonDisable(false);
     setAudioPlayerDisable(false);
+
+
   }
+
+
 
   // handle file submission
   const handleSubmit = (event) => {
@@ -98,6 +104,9 @@ function App() {
         let spectrogramData = JSON.parse(data.body)['spectrogramData'];
         spectrogramData = "data:image/png;base64,".concat(spectrogramData);
         setSpectrogramData(spectrogramData);
+        let barGraphData = JSON.parse(data.body)['graphData'];
+        barGraphData = "data:image/png;base64,".concat(barGraphData);
+        setBarGraphData(barGraphData);
       }
 
       // re-enable submit button
@@ -113,7 +122,8 @@ function App() {
     <div className="App">
       <div className="Input">
         <div class="back">
-        <h1>Welcome to the online Audio Classifier !</h1>
+        <script src="jquery-3.5.1.min.js"></script>
+        <h1>Welcome to the Online Audio Classifier !</h1>
         </div>
         <form onSubmit={handleSubmit}>
           <br/>
@@ -123,14 +133,21 @@ function App() {
 
           <audio disabled={audioPlayerDisable} id="audio" controls>
           </audio><br/><br/>
+          <div id="waveform"></div>
           <button class="button" type="submit" disabled={buttonDisable}>{buttonText}</button>
         </form>
         
       </div>
       <div className="Output">
         <h1>Results</h1>
-        <p>{outputFileData}</p>
+        <div class="multiline">
+        <p>{outputFileData}</p> 
+        </div>
+        <img src={barGraphData}></img>
+        <br/>
+        <p> Melspectrogram plot of the Audio:</p>
         <img src={spectrogramData}></img>
+        
       </div>
     </div>
   );
