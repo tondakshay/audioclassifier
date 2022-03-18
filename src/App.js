@@ -1,4 +1,5 @@
 import './App.css';
+
 import React from 'react';
 
 // atob is deprecated but this function converts base64string to text string
@@ -38,6 +39,37 @@ function App() {
     });
   }
 
+//handle demo 
+  const handleDemo = async () => {
+    setOutputFileData("");
+    setSpectrogramData("");
+    setBarGraphData("");
+
+    console.log('newly uploaded file');
+    const inputFile = await import("./Audio.wav");
+    var audio = new Audio(inputFile.default);
+    console.log(inputFile);
+
+    //show audio player
+   // var sound = document.getElementById('audio');
+   // sound.src = URL.createObjectURL("Audio.wav");
+   // sound.onend = function(e) {
+   //   URL.revokeObjectURL(this.src);
+    //}
+
+    // convert file to bytes data
+    const base64Data = await convertFileToBytes(inputFile);
+    const base64DataArray = base64Data.split('base64,'); // need to get rid of 'data:image/png;base64,' at the beginning of encoded string
+    const encodedString = base64DataArray[1];
+    setInputFileData(encodedString);
+    console.log('file converted successfully');
+
+    // enable submit button
+    setButtonDisable(false);
+    Show_Audio();
+
+  }
+  
   // handle file input
   const handleChange = async (event) => {
     // Clear output text.
@@ -66,7 +98,6 @@ function App() {
     // enable submit button
     setButtonDisable(false);
     Show_Audio();
-
 
   }
 
@@ -119,7 +150,7 @@ function App() {
 
       // re-enable submit button
       setButtonDisable(false);
-      setButtonText('Submit');
+      setButtonText('Classify');
     })
     .then(() => {
       console.log('POST request success');
@@ -130,9 +161,13 @@ function App() {
   return (
     <div className="App">
       <div className="Input">
+
+
         <div class="back">
         <script src="jquery-3.5.1.min.js"></script>
         <h1>Welcome to the Online Audio Classifier !</h1>
+        <p>Developed by Akshay Tondak</p>
+        <p>(Feedback? Write to akshayt@umich.edu)</p>
         </div>
         <form onSubmit={handleSubmit}>
           <br/>
