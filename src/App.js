@@ -260,8 +260,8 @@ function App() {
         </div>
         <form onSubmit={handleSubmit}>
           <br/>
-          <input class="custom-file-input" type="file" accept=".wav" onChange={handleChange} />
-          <label htmlFor="demo-dropdown">Demo: </label>
+          <input class="custom-file-input" type="file" accept=".wav" onChange={handleChange} /> OR
+          <label htmlFor="demo-dropdown"> </label>
           <select class="custom-file-input" name="Select Audio" id="demo-dropdown" value={selectedDropdownFile} onChange={handleDropdown}>
             <option value="">-- Select Demo File --</option>
             {demoDropdownFiles.map((file) => <option key={file} value={file}>{file}</option>)}
