@@ -37,7 +37,7 @@ function App() {
   const [submitButtonText, setSubmitButtonText] = React.useState('Submit');
   const [buttonDisable, setButtonDisable] = React.useState(true);
   const [audioPlayerDisable, setAudioPlayerDisable] = React.useState(true);
-  const [buttonText, setButtonText] = React.useState('Classify');
+  const [buttonText, setButtonText] = React.useState('Classify Sound');
   const [demoDropdownFiles, setDemoDropdownFiles] = React.useState([]);
   const [selectedDropdownFile, setSelectedDropdownFile] = React.useState('');
   const [inputImage, setInputImage] = React.useState(''); // represented as bytes data (string)
@@ -239,7 +239,7 @@ function App() {
 
       // re-enable submit button
       setButtonDisable(false);
-      setButtonText('Classify');
+      setButtonText('Classify Sound');
     })
     .then(() => {
       console.log('POST request success');
