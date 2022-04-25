@@ -254,13 +254,12 @@ function App() {
 
         <div class="back">
         <script src="jquery-3.5.1.min.js"></script>
-        <h1>Welcome to the Online Audio Classifier !</h1>
-        <p>Developed by Akshay Tondak</p>
-        <p>(Feedback? Write to akshayt@umich.edu)</p>
+        <h1 id="grad1">Audio Classifier </h1>
         </div>
         <form onSubmit={handleSubmit}>
           <br/>
-          <input class="custom-file-input" type="file" accept=".wav" onChange={handleChange} /> OR
+          <p>An online Audio Classifier that lets you classify your audio signal into one of Classes. To begin:</p>
+          <input class="custom-file-input" type="file" accept=".wav" onChange={handleChange} /> ---OR---
           <label htmlFor="demo-dropdown"> </label>
           <select class="custom-file-input" name="Select Audio" id="demo-dropdown" value={selectedDropdownFile} onChange={handleDropdown}>
             <option value="">-- Select Demo File --</option>
@@ -286,8 +285,13 @@ function App() {
         <br/>
         <p> Melspectrogram plot of the Audio:</p>
         <img src={spectrogramData}></img>
-        
+        <br/><br/><br/><br/><br/><br/>
       </div>
+      <div class="footer">
+          <p>Developed by Akshay Tondak |   
+          <a href="https://github.com/tondakshay/audioclassifier/blob/main/public/EECS_605_project_report%20(1).pdf">  Report Link  </a>
+          <a href="akshayt@umich.edu">| akshayt@umich.edu</a></p>
+        </div>
     </div>
   );
 }
